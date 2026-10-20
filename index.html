@@ -1,1 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cetirizine — selected projects. Minimal index of builds, tools and experiments.">
+  <meta name="author" content="Cetirizine">
+  <title>Cetirizine · Projects</title>
 
+  <!-- Self-contained favicon (no file, no request) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚀%3C/text%3E%3C/svg%3E">
+
+  <!-- Open Graph (social preview) -->
+  <meta property="og:title" content="Cetirizine · Projects">
+  <meta property="og:description" content="Selected projects — builds, tools and experiments.">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==================================================================
+       HEADER  —  identity only (no static badges)
+       ================================================================== -->
+  <header class="site-header">
+    <h1 class="site-title">Cetirizine <span class="dot">·</span> Projects</h1>
+    <p class="site-sub">Selected builds, tools and experiments. Newest first.</p>
+  </header>
+
+  <main>
+    <!-- ==================================================================
+         ▼▼▼  HOW TO ADD A NEW PROJECT  (copy one card, edit 6 lines)  ▼▼▼
+
+         1. Copy one whole  <li class="card">…</li>  block (the one below).
+         2. Paste it right after the card you want it to follow.
+         3. Edit ONLY the 6 fields marked ①–⑥:
+
+              ①  img src=…            your screenshot (16:9, save into img/)
+              ②  card-title <a>…</a>  project name  — href = your project URL
+              ③  <time datetime=…>    "YYYY-MM-DD"  +  a readable date inside
+              ④  card-media href=…    your project URL  (same value as ②)
+              ⑤  <span class="tag">   your labels, e.g. Rust · Web · CLI
+              ⑥  card-desc            ONE short sentence: what it does
+
+         Delete the EXAMPLE cards whenever you like — the grid reflows.
+         ================================================================== -->
+    <ul class="grid" id="projects">
+
+      <!-- ============== CARD · Project One · TEMPLATE / EXAMPLE (edit or delete) ============== -->
+      <li class="card">
+        <a class="card-media" href="https://www.otak.site/shifa/" target="_blank" rel="noopener">   <!-- ④ URL -->
+          <img src="./img/shifa.png" alt="Screenshot of Project One" loading="lazy" width="640" height="360">  <!-- ① screenshot -->
+        </a>
+        <div class="card-body">
+          <div class="card-meta">
+            <time datetime="2026-10-01">October 20, 2026</time>   <!-- ③ date -->
+            <span class="tags" aria-label="Tags">
+              <span class="tag">Web</span>
+              <span class="tag">Quran</span>
+            </span>                                              <!-- ⑤ tags -->
+          </div>
+          <h2 class="card-title">
+            <a href="https://www.otak.site/shifa/" target="_blank" rel="noopener">Shifa Project</a>  <!-- ② name -->
+          </h2>
+          <p class="card-desc">Solutions from the Quran.</p>  <!-- ⑥ description -->
+          <a class="btn" href="https://www.otak.site/shifa/" target="_blank" rel="noopener" aria-label="Visit Project One">
+            Visit project <span class="btn-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </li>
+
+
+    </ul>
+  </main>
+
+  <!-- ==================================================================
+       FOOTER  —  live shields.io badges only (no static /badge/ ones)
+       ================================================================== -->
+  <footer class="site-footer">
+    <div class="footer-row">
+      <div class="badges footer-badges" aria-label="Live project stats">
+
+        <!-- Live visitor count — self-updating, keyless, counts 1 unique
+             visitor per day (badge-visitor-count.vercel.app) -->
+        <img id="views-badge" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbadge-visitor-count.vercel.app%2Fapi%2Fbadge%2FCetirizine-Projects-Visitors?style=for-the-badge&amp;labelColor=1a1a1a"
+             alt="visitors today" loading="lazy">
+      </div>
+    </div>
+    <div class="footer-row">
+      <span class="copyright">© <span id="year">2026</span> Cetirizine</span>
+    </div>
+  </footer>
+
+  <script>
+    // Auto year in the footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Visitor count — keyless, CORS-open, static-friendly.
+    //   1. GET /api/hit/<key>  increments (dedupes 1 visit per day per IP+UA)
+    //      AND returns the current value in the same response.
+    //   2. Refresh the shields endpoint badge so the number shown is current.
+    //   If the service is unreachable, the badge keeps its last rendered
+    //   value (or the shields fallback) — the page never breaks.
+    (function () {
+      const KEY  = 'Cetirizine-Projects-Visitors';                    // your counter key
+      const SRC  = 'https://badge-visitor-count.vercel.app/api';
+      const ENDPOINT = SRC + '/badge/' + KEY;                // shields /endpoint/ URL
+      const el = document.getElementById('views-badge');
+      fetch(SRC + '/hit/' + KEY, { mode: 'no-cors' })        // fire-and-forget increment
+        .catch(() => {})
+        .finally(() => setTimeout(() => {
+          // bust the shields.io CDN cache (maxAge 10s) so we see fresh number
+          const sep = ENDPOINT.includes('?') ? '&' : '?';
+          el.src = 'https://img.shields.io/endpoint?url=' + encodeURIComponent(ENDPOINT) +
+                   sep + 'style=for-the-badge&labelColor=1a1a1a&cacheBust=' + Date.now();
+        }, 1200));
+    })();
+  </script>
+</body>
+</html>
